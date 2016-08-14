@@ -9,6 +9,9 @@ var newBrick;
 var brickInfo;
 var scoreText;
 var score = 0;
+var lives = 3;
+var livesText;
+var lifeLostText;
 
 function preload() {
     // Scale to all screen sizes
@@ -42,14 +45,20 @@ function create() {
     // allow losing
     game.physics.arcade.checkCollision.down = false;
     ball.checkWorldBounds = true;
-    ball.events.onOutOfBounds.add(function() {
-        alert('Game over!');
-        location.reload();
-    }, this);
+    ball.events.onOutOfBounds.add(ballLeaveScreen, this);
 
     initBricks();
 
-    scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' })
+    var textStyle = { font: '18px Arial', fill: '#0095DD' };
+
+    scoreText = game.add.text(5, 5, 'Points: 0', textStyle);
+
+    // lives text
+    livesText = game.add.text(game.world.width - 5, 5, 'Lives: '+lives, textStyle);
+    livesText.anchor.set(1, 0); // right align by anchor
+    lifeLostText = game.add.text(game.world.width * 0.5, game.world.height * 0.5, 'Life lost, click to continue', textStyle);
+    lifeLostText.anchor.set(0.5);
+    lifeLostText.visible = false;
 }
 
 function update() {
@@ -101,6 +110,23 @@ function ballHitBrick(ball, brick) {
     }
     if (count_alive === 0) {
         alert('You won the game, congratulations!');
+        location.reload();
+    }
+}
+
+function ballLeaveScreen() {
+    lives -= 1;
+    if (lives) {
+        livesText.setText('Lives: '+lives);
+        lifeLostText.visible = true;
+        ball.reset(game.world.width * 0.5, game.world.height - 25);
+        paddle.reset(game.world.width * 0.5, game.world.height - 5);
+        game.input.onDown.addOnce(function () {
+            lifeLostText.visible = false;
+            ball.body.velocity.set(150, -150);
+        }, this);
+    } else {
+        alert('You lost, game over!');
         location.reload();
     }
 }
