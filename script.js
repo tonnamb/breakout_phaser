@@ -27,7 +27,8 @@ function create() {
     ball.body.bounce.set(1);
     // ball.body.gravity.y = 100;
 
-    paddle = game.add.script(game.world.width*0.5, game.world.height-5, 'paddle');
+    paddle = game.add.sprite(game.world.width * 0.5, game.world.height - 5, 'paddle');
+    paddle.anchor.set(0.5, 1);
 }
 
 function update() {
