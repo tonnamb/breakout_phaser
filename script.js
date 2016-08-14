@@ -32,6 +32,14 @@ function create() {
     paddle.anchor.set(0.5, 1);
     game.physics.enable(paddle, Phaser.Physics.ARCADE);
     paddle.body.immovable = true;
+
+    // allow losing
+    game.physics.arcade.checkCollision.down = false;
+    ball.checkWorldBounds = true;
+    ball.events.onOutOfBounds.add(function() {
+        alert('Game over!');
+        location.reload();
+    }, this);
 }
 
 function update() {
