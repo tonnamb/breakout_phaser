@@ -20,9 +20,10 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     
-    ball = game.add.sprite(50, 50, 'ball');
+    ball = game.add.sprite(game.world.width * 0.5, game.world.height - 25, 'ball');
+    ball.anchor.set(0.5);
     game.physics.enable(ball, Phaser.Physics.ARCADE);
-    ball.body.velocity.set(150, 150);
+    ball.body.velocity.set(150, -150);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.set(1);
     // ball.body.gravity.y = 100;
