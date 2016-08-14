@@ -7,6 +7,8 @@ var paddle;
 var bricks;
 var newBrick;
 var brickInfo;
+var scoreText;
+var score = 0;
 
 function preload() {
     // Scale to all screen sizes
@@ -46,6 +48,8 @@ function create() {
     }, this);
 
     initBricks();
+
+    scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' })
 }
 
 function update() {
@@ -86,4 +90,6 @@ function initBricks() {
 
 function ballHitBrick(ball, brick) {
     brick.kill();
+    score += 10;
+    scoreText.setText('Points: '+score);
 }
