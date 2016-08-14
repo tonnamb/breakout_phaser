@@ -3,7 +3,10 @@ var game = new Phaser.Game(480, 320, Phaser.AUTO, null, {
 });
 
 function preload() {
-
+    // Scale to all screen sizes
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
 }
 
 function create() {
@@ -11,5 +14,5 @@ function create() {
 }
 
 function update() {
-    
+
 }
