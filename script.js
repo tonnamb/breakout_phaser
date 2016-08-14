@@ -3,6 +3,7 @@ var game = new Phaser.Game(480, 320, Phaser.AUTO, null, {
 });
 
 var ball;
+var paddle;
 
 function preload() {
     // Scale to all screen sizes
@@ -12,7 +13,8 @@ function preload() {
 
     game.stage.backgroundColor = "#eee";
 
-    game.load.image('ball', 'img/ball.png')
+    game.load.image('ball', 'img/ball.png');
+    game.load.image('paddle', 'img/paddle.png');
 }
 
 function create() {
@@ -23,9 +25,9 @@ function create() {
     ball.body.velocity.set(150, 150);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.set(1);
-
-    // Set gravity
     // ball.body.gravity.y = 100;
+
+    paddle = game.add.script(game.world.width*0.5, game.world.height-5, 'paddle');
 }
 
 function update() {
