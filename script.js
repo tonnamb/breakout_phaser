@@ -12,6 +12,8 @@ var score = 0;
 var lives = 3;
 var livesText;
 var lifeLostText;
+var playing = false;
+var startButton;
 
 function preload() {
     // Scale to all screen sizes
@@ -26,6 +28,7 @@ function preload() {
     game.load.image('brick', 'img/brick.png');
 
     game.load.spritesheet('ball', 'img/wobble.png', 20, 20);
+    game.load.spritesheet('button', 'img/button.png', 120, 40);
 }
 
 function create() {
@@ -35,7 +38,7 @@ function create() {
     ball.animations.add('wobble', [0,1,0,2,0,1,0,2,0], 24);
     ball.anchor.set(0.5);
     game.physics.enable(ball, Phaser.Physics.ARCADE);
-    ball.body.velocity.set(150, -150);
+    // ball.body.velocity.set(150, -150);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.set(1);
     // ball.body.gravity.y = 100;
@@ -62,12 +65,18 @@ function create() {
     lifeLostText = game.add.text(game.world.width * 0.5, game.world.height * 0.5, 'Life lost, click to continue', textStyle);
     lifeLostText.anchor.set(0.5);
     lifeLostText.visible = false;
+
+    // add start button
+    startButton = game.add.button(game.world.width * 0.5, game.world.height * 0.5, 'button', startGame, this, 1, 0, 2);
+    startButton.anchor.set(0.5);
 }
 
 function update() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
     game.physics.arcade.collide(ball, bricks, ballHitBrick);
-    paddle.x = game.input.x || game.world.width*0.5;
+    if (playing) {
+        paddle.x = game.input.x || game.world.width*0.5;
+    }
 }
 
 function initBricks() {
@@ -144,4 +153,10 @@ function ballLeaveScreen() {
 
 function ballHitPaddle(ball, paddle) {
     ball.animations.play('wobble');
+}
+
+function startGame() {
+    startButton.destroy();
+    ball.body.velocity.set(150, -150);
+    playing = true;
 }
