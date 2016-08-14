@@ -29,7 +29,10 @@ function create() {
 
     paddle = game.add.sprite(game.world.width * 0.5, game.world.height - 5, 'paddle');
     paddle.anchor.set(0.5, 1);
+    game.physics.enable(paddle, Phaser.Physics.ARCADE);
+    paddle.body.immovable = true;
 }
 
 function update() {
+    game.physics.arcade.collide(ball, paddle);
 }
